@@ -98,7 +98,7 @@ const juegosFiltrados = computed(() => {
     </tr>
     <!-- Mostrar los juegos filtrados -->
     <tr v-for="i in juegosFiltrados" :key="i.nombre">
-      <td>{{ i.nombre }}</td>N
+      <td>{{ i.nombre }}</td>
       <td>{{ i.plataforma }}</td>
       <td>{{ i.estado }}</td>
       <td>{{ i.puntuacion }}</td>
