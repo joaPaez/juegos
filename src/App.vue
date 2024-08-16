@@ -9,7 +9,6 @@ let juegoN = ref({
 });
 
 let juegos = ref([]);
-
 let busnombre = ref('');
 let busplataforma = ref('');
 let busestado = ref('');
@@ -34,22 +33,29 @@ function agregarjuego() {
 const juegosFiltrados = computed(() => {
   return juegos.value.filter(juego => 
     juego.nombre.toLowerCase().includes(busnombre.value.toLowerCase()) &&
-    juego.plataforma.toLowerCase().includes(busplataforma.value.toLowerCase())&&
+    juego.plataforma.toLowerCase().includes(busplataforma.value.toLowerCase()) &&
     juego.estado.toLowerCase().includes(busestado.value.toLowerCase())
   );
 });
+
+// Mostrar información del juego seleccionado
+let juegoSeleccionado = ref(null);
+
+function mostrarInfo(juego) {
+  juegoSeleccionado.value = juego;
+}
 </script>
 
 <template>
-  <h1>EJEMPLO PRACTICO</h1>
-  <h1>Añadir juego</h1>
+  <h1>Administración de videojuegos</h1>
+  <h2>Nuevo videojuego</h2>
   <form action="">
     <label for="">Nombre</label>
-    <input type="text" id="nombre" placeholder="Nombre del juego" v-model="juegoN.nombre">
+    <input type="text" id="nombre" placeholder="Cualquier texto" v-model="juegoN.nombre">
     <br>
     <label for="">Plataforma</label>
     <select name="Plataforma" id="plataforma" v-model="juegoN.plataforma">
-      <option value="elegir">Elige una plataforma</option>
+      <option value="elegir">PC | PlayStation | Xbox One</option>
       <option value="PC">PC</option>
       <option value="PlayStation">PlayStation</option>
       <option value="Xbox One">Xbox One</option>
@@ -57,7 +63,7 @@ const juegosFiltrados = computed(() => {
     <br>
     <label for="">Estado</label>
     <select name="Estado" id="estado" v-model="juegoN.estado">
-      <option value="elegir">Elige un estado</option>
+      <option value="elegir">Pendiente | Jugando | Completado</option>
       <option value="Pendiente">Pendiente</option>
       <option value="Jugando">Jugando</option>
       <option value="Completado">Completado</option>
@@ -66,44 +72,51 @@ const juegosFiltrados = computed(() => {
     <label for="">Puntuación</label>
     <input type="text" id="puntuacion" placeholder="Valor numérico del 1 al 10" v-model="juegoN.puntuacion">
     <br>
-    <input type="button" @click="agregarjuego" value="Agregar Videojuego">
+    <input type="button" @click="agregarjuego" value="Registrar videojuego">
   </form>
   <br>
+
+  <h2>Videojuegos</h2>
   <!-- Campo de búsqueda -->
-   <h2>Buscar</h2>
-   nombre
-  <input type="text" v-model="busnombre" >
-  plataforma
+  <input type="text" v-model="busnombre" placeholder="Nombre">
   <select name="" id="" v-model="busplataforma">
-      <option value=""></option>  
+      <option value="">Plataforma</option>
       <option value="PC">PC</option>
       <option value="PlayStation">PlayStation</option>
       <option value="Xbox One">Xbox One</option>
   </select>
-  estado
-  <select name="Estado" id="estado" v-model="busestado">
-      <option value=""></option>
+  <select name="" id="" v-model="busestado">
+      <option value="">Estado</option>
       <option value="Pendiente">Pendiente</option>
       <option value="Jugando">Jugando</option>
       <option value="Completado">Completado</option>
-    </select>
-    <br>
-    <h2>Documentación de juegos</h2>
-  <table>
-    <tr>
-      <th>Nombre</th>
-      <th>Plataforma</th>
-      <th>Estado</th>
-      <th>Puntuación</th>
-    </tr>
-    <!-- Mostrar los juegos filtrados -->
-    <tr v-for="i in juegosFiltrados" :key="i.nombre">
-      <td>{{ i.nombre }}</td>
-      <td>{{ i.plataforma }}</td>
-      <td>{{ i.estado }}</td>
-      <td>{{ i.puntuacion }}</td>
-    </tr>
-  </table>
+  </select>
+
+  <div style="display: flex;">
+    <table>
+      <tr>
+        <th>Nombre</th>
+        <th>Plataforma</th>
+        <th>Estado</th>
+        <th>Puntuación</th>
+      </tr>
+      <!-- Mostrar los juegos filtrados -->
+      <tr v-for="i in juegosFiltrados" :key="i.nombre" @click="mostrarInfo(i)" style="cursor: pointer;">
+        <td>{{ i.nombre }}</td>
+        <td>{{ i.plataforma }}</td>
+        <td>{{ i.estado }}</td>
+        <td>{{ i.puntuacion }}</td>
+      </tr>
+    </table>
+
+    <!-- Cuadro de información -->
+    <div v-if="juegoSeleccionado" style="border: 1px solid black; margin-left: 20px; padding: 10px; width: 200px;">
+      <p><strong>Nombre:</strong> {{ juegoSeleccionado.nombre }}</p>
+      <p><strong>Plataforma:</strong> {{ juegoSeleccionado.plataforma }}</p>
+      <p><strong>Estado:</strong> {{ juegoSeleccionado.estado }}</p>
+      <p><strong>Puntuación:</strong> {{ juegoSeleccionado.puntuacion }}</p>
+    </div>
+  </div>
 </template>
 
 <style scoped>
