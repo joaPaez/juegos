@@ -109,7 +109,7 @@ const juegosFiltrados = computed(() => {
 <style scoped>
 body {
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
+  background-color: red;
   padding: 20px;
 }
 
