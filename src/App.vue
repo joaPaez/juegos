@@ -9,11 +9,17 @@ let juegoN = ref({
 });
 
 let juegos = ref([]);
+let error=ref([]);
 let busnombre = ref('');
 let busplataforma = ref('');
 let busestado = ref('');
 
+
+
+
 // Agregar un nuevo juego a la lista
+function verificar(){
+
 function agregarjuego() {
   juegos.value.push({
     nombre: juegoN.value.nombre,
@@ -28,6 +34,27 @@ function agregarjuego() {
   juegoN.value.estado = 'elegir';
   juegoN.value.puntuacion = '';
 }
+ //vericar si falta completar algun casillero o si la puntuacion tiene un numero del 1 al 10 o esta vacia
+  if(juegoN.value.puntuacion>=0 && 
+    juegoN.value.puntuacion<=10 && 
+    juegoN.value.nombre !== '' && 
+    juegoN.value.plataforma!=="elegir" &&
+    juegoN.value.estado!=="elegir"
+  ){
+    agregarjuego()
+  }
+  else if(juegoN.value.puntuacion==""&&
+    juegoN.value.nombre !== '' && 
+    juegoN.value.plataforma!=="elegir" &&
+    juegoN.value.estado!=="elegir"
+
+  ){
+    agregarjuego()
+  }
+
+
+}
+
 
 // Computed property para obtener los juegos filtrados
 const juegosFiltrados = computed(() => {
@@ -37,6 +64,9 @@ const juegosFiltrados = computed(() => {
     juego.estado.toLowerCase().includes(busestado.value.toLowerCase())
   );
 });
+
+
+
 
 // Mostrar información del juego seleccionado
 let juegoSeleccionado = ref(null);
@@ -50,6 +80,10 @@ function esSeleccionado(juego) {
   return juegoSeleccionado.value && juegoSeleccionado.value.nombre === juego.nombre;
 }
 </script>
+
+
+
+
 
 <template>
   <h1>Administración de videojuegos</h1>
@@ -77,12 +111,17 @@ function esSeleccionado(juego) {
     <label for="">Puntuación</label>
     <input type="text" id="puntuacion" placeholder="Valor numérico del 1 al 10" v-model="juegoN.puntuacion">
     <br>
-    <input type="button" @click="agregarjuego" value="Registrar videojuego">
+    <input type="button" @click="verificar" value="Registrar videojuego">
+    <p style="color: red" v-if="error.puntuacion==true">error, se debe poner un numero entre el 1 al 10</p>
   </form>
   <br>
 
   <h2>Videojuegos</h2>
   <!-- Campo de búsqueda -->
+
+
+
+
   <div style="display: flex; gap: 10px;">
     <input type="text" v-model="busnombre" placeholder="Nombre">
     <select name="" id="" v-model="busplataforma">
@@ -99,6 +138,10 @@ function esSeleccionado(juego) {
     </select>
   </div>
   
+
+
+
+
   <div style="display: flex;">
     <table>
       <tr>
@@ -122,6 +165,10 @@ function esSeleccionado(juego) {
       </tr>
     </table>
 
+
+
+
+
     <!-- Cuadro de información -->
     <div v-if="juegoSeleccionado" style="border: 1px solid black; margin-left: 20px; padding: 10px; width: 200px;">
       <p><strong>Nombre:</strong> {{ juegoSeleccionado.nombre }}</p>
@@ -131,6 +178,10 @@ function esSeleccionado(juego) {
     </div>
   </div>
 </template>
+
+
+
+
 
 <style scoped>
 body {
