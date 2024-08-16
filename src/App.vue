@@ -44,6 +44,11 @@ let juegoSeleccionado = ref(null);
 function mostrarInfo(juego) {
   juegoSeleccionado.value = juego;
 }
+
+// Verifica si el juego es el seleccionado
+function esSeleccionado(juego) {
+  return juegoSeleccionado.value && juegoSeleccionado.value.nombre === juego.nombre;
+}
 </script>
 
 <template>
@@ -78,20 +83,22 @@ function mostrarInfo(juego) {
 
   <h2>Videojuegos</h2>
   <!-- Campo de búsqueda -->
-  <input type="text" v-model="busnombre" placeholder="Nombre">
-  <select name="" id="" v-model="busplataforma">
-      <option value="">Plataforma</option>
-      <option value="PC">PC</option>
-      <option value="PlayStation">PlayStation</option>
-      <option value="Xbox One">Xbox One</option>
-  </select>
-  <select name="" id="" v-model="busestado">
-      <option value="">Estado</option>
-      <option value="Pendiente">Pendiente</option>
-      <option value="Jugando">Jugando</option>
-      <option value="Completado">Completado</option>
-  </select>
-
+  <div style="display: flex; gap: 10px;">
+    <input type="text" v-model="busnombre" placeholder="Nombre">
+    <select name="" id="" v-model="busplataforma">
+        <option value="">Plataforma</option>
+        <option value="PC">PC</option>
+        <option value="PlayStation">PlayStation</option>
+        <option value="Xbox One">Xbox One</option>
+    </select>
+    <select name="" id="" v-model="busestado">
+        <option value="">Estado</option>
+        <option value="Pendiente">Pendiente</option>
+        <option value="Jugando">Jugando</option>
+        <option value="Completado">Completado</option>
+    </select>
+  </div>
+  
   <div style="display: flex;">
     <table>
       <tr>
@@ -101,7 +108,13 @@ function mostrarInfo(juego) {
         <th>Puntuación</th>
       </tr>
       <!-- Mostrar los juegos filtrados -->
-      <tr v-for="i in juegosFiltrados" :key="i.nombre" @click="mostrarInfo(i)" style="cursor: pointer;">
+      <tr 
+        v-for="i in juegosFiltrados" 
+        :key="i.nombre" 
+        @click="mostrarInfo(i)" 
+        :style="{backgroundColor: esSeleccionado(i) ? '#d3d3d3' : ''}"
+        style="cursor: pointer;"
+      >
         <td>{{ i.nombre }}</td>
         <td>{{ i.plataforma }}</td>
         <td>{{ i.estado }}</td>
@@ -188,6 +201,10 @@ th {
 
 tr:nth-child(even) {
   background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #e0e0e0;
 }
 
 div {
