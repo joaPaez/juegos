@@ -9,7 +9,8 @@ let juegoN = ref({
 });
 
 let juegos = ref([]);
-let error=ref([]);
+let error= ref(false);
+let error2= ref(false);
 let busnombre = ref('');
 let busplataforma = ref('');
 let busestado = ref('');
@@ -34,13 +35,37 @@ function agregarjuego() {
   juegoN.value.estado = 'elegir';
   juegoN.value.puntuacion = '';
 }
+
+if(juegoN.value.puntuacion>=1 &&
+  juegoN.value.puntuacion<=10){
+    error.value=false
+  }
+  else if(juegoN.value.puntuacion==""){
+    error.value=false
+  }
+else{
+  error.value=true
+}
+
+  if(juegoN.value.nombre == '' ||
+    juegoN.value.plataforma=="elegir" ||
+    juegoN.value.estado=="elegir"){
+      error2.value=true
+    }
+  else{
+    error2.value=false
+  }
+
+
  //vericar si falta completar algun casillero o si la puntuacion tiene un numero del 1 al 10 o esta vacia
-  if(juegoN.value.puntuacion>=0 && 
+  if(juegoN.value.puntuacion>=1 && 
     juegoN.value.puntuacion<=10 && 
     juegoN.value.nombre !== '' && 
     juegoN.value.plataforma!=="elegir" &&
     juegoN.value.estado!=="elegir"
   ){
+    error2.value=false
+    error.value=false
     agregarjuego()
   }
   else if(juegoN.value.puntuacion==""&&
@@ -49,9 +74,10 @@ function agregarjuego() {
     juegoN.value.estado!=="elegir"
 
   ){
+    error2.value=false
+    error.value=false
     agregarjuego()
   }
-
 
 }
 
@@ -112,7 +138,8 @@ function esSeleccionado(juego) {
     <input type="text" id="puntuacion" placeholder="Valor numérico del 1 al 10" v-model="juegoN.puntuacion">
     <br>
     <input type="button" @click="verificar" value="Registrar videojuego">
-    <p style="color: red" v-if="error.puntuacion==true">error, se debe poner un numero entre el 1 al 10</p>
+    <p style="color: red" v-if="error">Se debe poner un numero entre el 1 al 10</p>
+    <p style="color: red" v-if="error2">Faltan completar casilleros</p>
   </form>
   <br>
 
