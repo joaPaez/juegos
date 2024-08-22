@@ -18,7 +18,7 @@ let busestado = ref('');
 
 
 
-// Agregar un nuevo juego a la lista
+
 function verificar(){
 
 function agregarjuego() {
@@ -29,7 +29,6 @@ function agregarjuego() {
     puntuacion: juegoN.value.puntuacion,
   });
 
-  // Limpiar el formulario después de agregar el juego
   juegoN.value.nombre = '';
   juegoN.value.plataforma = 'elegir';
   juegoN.value.estado = 'elegir';
@@ -57,7 +56,7 @@ else{
   }
 
 
- //vericar si falta completar algun casillero o si la puntuacion tiene un numero del 1 al 10 o esta vacia
+
   if(juegoN.value.puntuacion>=1 && 
     juegoN.value.puntuacion<=10 && 
     juegoN.value.nombre !== '' && 
@@ -82,7 +81,7 @@ else{
 }
 
 
-// Computed property para obtener los juegos filtrados
+
 const juegosFiltrados = computed(() => {
   return juegos.value.filter(juego => 
     juego.nombre.toLowerCase().includes(busnombre.value.toLowerCase()) &&
@@ -94,16 +93,16 @@ const juegosFiltrados = computed(() => {
 
 
 
-// Mostrar información del juego seleccionado
+
 let juegoSeleccionado = ref(null);
 
-function mostrarInfo(juego) {
-  juegoSeleccionado.value = juego;
+function mostrarInfo(i) {
+  juegoSeleccionado.value = i;
 }
 
-// Verifica si el juego es el seleccionado
-function esSeleccionado(juego) {
-  return juegoSeleccionado.value && juegoSeleccionado.value.nombre === juego.nombre;
+
+function esSeleccionado(i) {
+  return juegoSeleccionado.value && juegoSeleccionado.value.nombre === i.nombre;
 }
 </script>
 
@@ -144,7 +143,7 @@ function esSeleccionado(juego) {
   <br>
 
   <h2>Videojuegos</h2>
-  <!-- Campo de búsqueda -->
+
 
 
 
@@ -177,7 +176,7 @@ function esSeleccionado(juego) {
         <th>Estado</th>
         <th>Puntuación</th>
       </tr>
-      <!-- Mostrar los juegos filtrados -->
+
       <tr 
         v-for="i in juegosFiltrados" 
         :key="i.nombre" 
@@ -196,7 +195,7 @@ function esSeleccionado(juego) {
 
 
 
-    <!-- Cuadro de información -->
+>
     <div v-if="juegoSeleccionado" style="border: 1px solid black; margin-left: 20px; padding: 10px; width: 200px;">
       <p><strong>Nombre:</strong> {{ juegoSeleccionado.nombre }}</p>
       <p><strong>Plataforma:</strong> {{ juegoSeleccionado.plataforma }}</p>
